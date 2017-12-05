@@ -1,0 +1,73 @@
+.clear{
+	clear: both;
+}
+.alignCenter{
+	text-align: center;
+}
+
+.button {
+    position: absolute;
+    top: 50%;
+}
+
+body{
+     background-color: #C0C0C0;
+     margin-top: 100px;
+}
+a button{
+	 background-color: #87CEEB; /* Green */
+    border: none;
+    color: BLACK;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+}
+H1{
+	color: #0000FF;
+}
+.validationAlign{
+	position: absolute;
+  bottom: 0;
+  left: 0;
+
+}
+form a input {
+     background-color: #87CEEB; /* Green */
+    border: none;
+    color: BLACK;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+}
+form p   {
+     background-color: #87CEEB; /* Green */
+    border: none;
+    color: BLACK;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+}
+.buttonSize {
+     background-color: #87CEEB; /* Green */
+    border: none;
+    color: BLACK;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+}
