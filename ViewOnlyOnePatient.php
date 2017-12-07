@@ -102,7 +102,7 @@ body{
                 $picture = "uploads/" .$row['PatientID'].".jpg";
                 
                 echo '<tr>'
-                        . '<td><img src='.$picture.' width = "100px" height = "100px" > </td>'
+                        . '<td><img src="data:image;base64,'.$row['Image'].'" width = "100px" height = "100px"> </td>'
                         . '<td>'.$row['Gender'].'</td>'
                         . '<td>'.$row['PhoneNo'].'</td>'
                         . '<td>'.$row['LastName'].'</td>'
