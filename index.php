@@ -34,11 +34,13 @@ include 'bootstraplink.php';
                         <br>
                         <br>
                         
-                        <a href="twoTablesData.php"><button type="button" class="btn btn-warning btn-lg">Two Tables Data</button></a>
+<!--
+                        <a href="twoTablesData.php"><button type="button" class="btn btn-warning btn-lg">Multible Tables Data</button></a>
                           <br>
                         <br>
+-->
                         
-                        <a href="specialuser.php"><button type="button" class="btn btn-success btn-lg">Special User</button></a>
+<!--                        <a href="specialuser.php"><button type="button" class="btn btn-success btn-lg">Special User</button></a>-->
                         <br>
                         <br>
                         

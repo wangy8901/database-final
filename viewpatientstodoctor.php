@@ -100,6 +100,7 @@ body{
             echo '<table border=10 width="100%" class="table table-striped" class="table-responsive">';
             echo '<tr>'
             
+            . '<th> Record ID </th> '
             . '<th> Gender </th> '
             . '<th> Phone Number </th>'
             . '<th> Last Name </th>'
@@ -115,6 +116,7 @@ body{
             while ($row = mysqli_fetch_assoc($result )){
                 
                 echo '<tr>'
+                        . '<td>'.$row['RecordID'].'</td>'
                         . '<td>'.$row['Gender'].'</td>'
                         . '<td>'.$row['PhoneNo'].'</td>'
                         . '<td>'.$row['LastName'].'</td>'
@@ -125,7 +127,7 @@ body{
                         .'<td>'.$row['Prescription'].'</td>'
                         .'<td>'.$row['MedicalIssue'].'</td>'
                         .'<td>'.$row['DateOfExamination'].'</td>'
-                        .'<td><a href="patienteditReport.php? id='.$row['PatientID'].'" class = "btn btn-success "> Edit </a></td>'                     
+                        .'<td><a href="patienteditReport.php? id='.$row['RecordID'].'" class = "btn btn-success "> Edit </a></td>'                     
                    . '</tr>';
             } 
             

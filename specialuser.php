@@ -1,5 +1,12 @@
 <?php
 include 'bootstraplink.php';
+session_start();
+$user = $_SESSION["login_user"];
+
+if(empty($user))
+{
+	header("location: index.php");
+}
 ?>
 <html>
     <head>
@@ -76,18 +83,21 @@ body{
                                             <a href="viewAllDoctors.php" target="_self">DOCTORS</a> 
 					</li>
 					<li>
-                                            <a href="viewOnlyNurse.php" target="_self">NURSES </a>
+                                            <a href="viewAllNurses.php" target="_self">NURSES </a>
 					</li>
-					<li>
-						<a href="admin.php" target="_self">ADMIN </a>
-					</li>
+					
 					<li>
 						<a href="https://www.facebook.com/" target="_self">SOCIAL  f</a>
 					</li>
 					<li>
                                             <a href="fortdesk.php" target="_self"> FRONT DESK</a>
 					</li>
+                    <li>
+                                            <a href="twoTablesData.php" target="_self"> Two Table</a>
+					</li>
+                     
                                         
+                                                                              
 				</ul>
 			</div>
                     <div class="setSearch">
@@ -130,9 +140,12 @@ body{
 		
 			<div class="footer">
 				<div class="footerText">
-					<p>   <marquee> Today 12 cases of poliovirus exist in two countries, and the Gates Foundation is optimistic the last case of polio could be seen this year. </marquee>
+					<p>   <marquee> <?php $mydate=getdate(date("U"));
+											echo "Today is: $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]"; ?> 
+						</marquee>
 				 </p>
 				</div>
 			</div>
+			
     </body>
 </html>

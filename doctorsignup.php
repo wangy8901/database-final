@@ -31,15 +31,21 @@ include 'dbconnection.php';
 	 </div>
     <?php
                                             if (isset($_POST['button'])) {
-                                                    $firstName = $_POST['firstname'];
+                                                    if($_FILES['fileToUpload']['tmp_name'] != null || $_FILES['fileToUpload']['name'] != null){
+                                                        $image = addslashes($_FILES['fileToUpload']['tmp_name']);
+	                                                    $image_name = addslashes($_FILES['fileToUpload']['name']);
+	                                                    $image = file_get_contents($image);
+	                                                    $image = base64_encode($image);
+                                                    }
+													$firstName = $_POST['firstname'];
                                                     $lastName = $_POST['lastname'];
                                                     $gender = $_POST['gender'];
                                                     $phoneNum = $_POST['phoneNum'];
                                                     $address = $_POST['address'];
                                                     $username = $_POST['username'];
                                                     //$loginID= $_POST['loginid'];
-                                                     $target_dir = "uploads/";
-                                                 $query = "INSERT INTO doctor (LastName,FirstName,PhoneNum,Gender,Address, DoctorID) values('$lastName','$firstName','$phoneNum','$gender','$address', '$username')";
+                                                     //$target_dir = "uploads/";
+                                                 $query = "INSERT INTO doctor (LastName,FirstName,PhoneNum,Gender,Address, DoctorID, Image_name, Image) values('$lastName','$firstName','$phoneNum','$gender','$address', '$username', '$image_name', '$image')";
                                                    $queryCheckRecord = "select * from doctor where DoctorID = '$username'";
                     $resultCheck = mysqli_query($con, $queryCheckRecord);
                    
@@ -52,11 +58,11 @@ include 'dbconnection.php';
                                                     $result = mysqli_query($con, $query);
                                                     
                                                 if ($result) {
-                                                    $user_id = mysqli_insert_id($con);
+                                                    //$user_id = mysqli_insert_id($con);
                     
-                    $target_file = $target_dir . $user_id. '.jpg';
+                    //$target_file = $target_dir . $user_id. '.jpg';
                     
-                    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+                    //move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
                     
                     
                     echo ("<script LANGUAGE= 'javascript'>

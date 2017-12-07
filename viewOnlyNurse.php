@@ -71,7 +71,6 @@ body{
                     
                 echo '<br>';
             }
-      // $query = "select student.*, departments.dept_name from student JOIN departments ON (student.dept= departments.id)";
        // $query = "select * from nurse";
 
 
@@ -82,6 +81,7 @@ body{
        //                  p.PatientID = t.PatientID and
        //                  p.RoomID = b.RoomID and
        //                  n.NurseID = '$show_nurse_id'";
+	   // $show_nurse_id = $_SESSION["show_nurse_id"];
        
        $query = "SELECT p.LastName, p.FirstName, p.RoomID, p.Gender, r.Type
                   FROM patient p, nurse n, takecareof t, room r
@@ -89,8 +89,8 @@ body{
                         p.PatientID = t.PatientID and
                         r.RoomID = p.RoomID and
                         n.NurseID = '$show_nurse_id'";
-         
-            $result = mysqli_query($con, $query);
+			
+					      $result = mysqli_query($con, $query);
             
             
            

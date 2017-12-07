@@ -8,6 +8,20 @@ and open the template in the editor.
 //database connection
 include 'dbconnection.php';
 include 'bootstraplink.php';
+
+session_start();
+$user = $_SESSION["login_user"];
+
+$query = "SELECT * from administrator where Username = '$user'";
+//connection
+$exe_query = mysqli_query($con, $query);
+
+
+$result = mysqli_num_rows($exe_query);
+if($result != 1)
+{
+	header("location: index.php");
+}
    
 ?>
 <html>
@@ -87,6 +101,7 @@ body{
                     
             echo '<table border=10 width="100%" class="table table-striped">';
             echo '<tr>'
+            . '<th> Doctor ID </th> '
               . '<th> Picture </th> '
             . '<th> Last Name </th>'
             . '<th> First Name </th>'
@@ -97,10 +112,11 @@ body{
             . '<th> Delete </th>'
             .'</tr>';
             while ($row = mysqli_fetch_assoc($result)){
-                $picture = "uploads/" .$row['DoctorID'].".jpg";
+                //$picture = "uploads/" .$row['DoctorID'].".jpg";
                  $id = $row['DoctorID'];
                 echo '<tr>'
-                       . '<td><img src='.$picture.' width = "100px" height = "100px" > </td>'
+                        . '<td>'.$row['DoctorID'].'</td>'
+                       . '<td><img src="data:image;base64,'.$row['Image'].'" width = "100px" height = "100px"> </td>'
 
                         . '<td>'.$row['LastName'].'</td>'
                         . '<td>'.$row['FirstName'].'</td>'

@@ -18,11 +18,13 @@ $con = mysqli_connect('localhost','root','','hospitall');
        window.alert('Record updated')
        window.location.href='index.php';
        </script>");
+       header("Location: ../hospitall/viewAllNurses.php");
    }
    else{
        echo ("<script>
        window.alert('sorry record not updated')
        </script>");
+       header("Location: ../hospitall/viewAllNurses.php");
    }
 ?>
 

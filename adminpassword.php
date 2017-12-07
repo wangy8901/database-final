@@ -107,8 +107,8 @@ if(isset($_POST['sub']))
 // seesion to store user data till it got logouts
      $_SESSION["login_user"] = $username;
      
-    
-     header("location:adminView.php");
+     //header("location:adminView.php");
+       header("location:specialuser.php"); 
 
 	}
 	else

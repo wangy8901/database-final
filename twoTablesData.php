@@ -51,66 +51,42 @@ body{
          <br>
         <div class="header">
 			<div class="content">
-                            <p> NURSES </p>
+                            <p> Room Information </p>
                             
                     </div>
 		</div>
           <br>
         <?php
-               
-                   if (isset($_GET['delete'])){
-                       $id = $_GET['delete'];
-                $querydelete = "DELETE FROM `nurse` WHERE NurseID=".$id;
-                $res = mysqli_query($con, $querydelete);
-                
-                if($querydelete){
-                     echo 'Record Deleted against Id: '.$id;
-                }
-                   
-                    
-                echo '<br>';
-            }
-      // $query = "select student.*, departments.dept_name from student JOIN departments ON (student.dept= departments.id)";
-       $query = "select * from nurse";
-       
+        echo '<br>';
+        
+        $sqlroom = "SELECT r.RoomID, r.Type, count(p.PatientID) as total
+                FROM patient p, room r
+                WHERE p.RoomID = r.RoomID
+                GROUP BY r.RoomID
+                ORDER BY count(p.PatientID), r.Type DESC
+                ";
+        
+         $resroom = mysqli_query($con, $sqlroom);
          
-            $result = mysqli_query($con, $query);
-            
-            
-           
-            
-            
-                    
-            echo '<table border=10 width="50px" class="table table-striped">';
-            echo '<tr>'
-             . '<th> Picture </th> '
-            . '<td> Nurse Name </td>'
-            . '<td> Phone Number </td>'
-            . '<td> Gender</td>' 
-            . '<td> Address</td>' 
+         echo '<table border=10 width="50px" class="table table-striped">';
+         echo '<tr>'
+            . '<th> Room ID </th> '
+            . '<th> Room Type </th> '
+            . '<th> Number of patients </th> '
             .'</tr>';
-            while ($row = mysqli_fetch_assoc($result)){
-                  $picture = "uploads/" .$row['NurseID'].".jpg";
+            while ($rowroom = mysqli_fetch_assoc($resroom)){
                 echo '<tr>'
-                             . '<td><img src='.$picture.' width = "100px" height = "100px" > </td>'
 
-                        . '<td>'.$row['NurseName'].'</td>'
-                        . '<td>'.$row['PhoneNum'].'</td>'
-                        . '<td>'.$row['Gender'].'</td>'
-                        .'<td>'.$row['Address'].'</td>'                     
+                        . '<td>'.$rowroom['RoomID'].'</td>'
+                        . '<td>'.$rowroom['Type'].'</td>'
+                        . '<td>'.$rowroom['total'].'</td>'
                 . '</tr>';
-            } 
-           
-            
-     
-            
+            }
             echo '</table>';
             echo '<br>';
            echo '<div class = "perfect" >';
             echo '<a href = "logout.php" class = "btn btn-danger " > LOGOUT</a>';
             echo '</div>';
-            
-            //Nurses all data
         ?>
           
           <!DOCTYPE html>
@@ -129,7 +105,7 @@ include 'bootstraplink.php';
     <head>
         <meta charset="UTF-8">
         
-        <title>www.glowingschool.com</title>
+        <title>www.newlifehospital.com</title>
           <style>
             .table td {
    text-align: center;   
@@ -169,71 +145,64 @@ body{
         <br>
         <div class="header">
 			<div class="content">
-                            <p> PATIENTS </p>
+                            <p> Patient Report </p>
                             
                     </div>
 		</div>
           <br>
         <?php
+        echo '<br>';
                
-                   if (isset($_GET['delete'])){
-                       $id = $_GET['delete'];
-                $querydelete = "DELETE FROM `patient` WHERE PatientID=".$id;
-                $res = mysqli_query($con, $querydelete);
-                
-                if($querydelete){
-                     echo 'Record Deleted against Id: '.$id;
-                }
-                   
-                    
-                echo '<br>';
-            }
-          
-        // put your code here
-           
-          
-      // $query = "select student.*, departments.dept_name from student JOIN departments ON (student.dept= departments.id)";
-       $query = "select p.*,r.Type from patient as p join room as r on r.RoomID=p.RoomID";
-  
-       $result = mysqli_query($con, $query);
-                                                    
-           
-            
-            
-                    
+        $query="SELECT m.RecordID, p.PatientID, p.FirstName, p.LastName, r.Type ,m.MedicalIssue, m.Prescription
+                FROM medicalrecord m , patient p , room r 
+                WHERE m.PatientID=p.PatientID
+                AND r.RoomID = p.RoomID";
+       
+         
+            $result = mysqli_query($con, $query);
+        // echo "SELECT p.FirstName, p.LastName, r.Type ,m.MedicalIssue, m.Prescription<br>
+        //         FROM medicalrecord m , patient p , room r <br>
+        //         WHERE m.PatientID=p.PatientID<br>
+        //         AND r.RoomID = p.RoomID<br>";
             echo '<table border=10 width="100%" class="table table-striped">';
+//            echo '<tr>'
+//             . '<th> Picture </th> '
+//            . '<td> Nurse Name </td>'
+//            . '<td> Phone Number </td>'
+//            . '<td> Gender</td>' 
+//            . '<td> Address</td>' 
+//            .'</tr>';
             echo '<tr>'
-            . '<th> Picture </th> '
-            . '<th> Gender </th> '
-            . '<th> Phone Number </th>'
+            . '<th> Record ID </th> '
+            . '<th> Patient ID </th> '
+            . '<th> First Name </th> '
             . '<th> Last Name </th>'
-            . '<th> First Name </th>'
-            . '<th> Age </th>'
-            . '<th> Address</th>'
-                     . '<th> Room Type </th>'
-            
+            . '<th> Room Type </th>'
+            . '<th> Medical Issue</th>' 
+            . '<th> Prescription</th>' 
             .'</tr>';
-            while ($row = mysqli_fetch_assoc($result )){
-                $picture = "uploads/" .$row['PatientID'].".jpg";
-                
+            while ($row = mysqli_fetch_assoc($result)){
                 echo '<tr>'
-                        . '<td><img src='.$picture.' width = "100px" height = "100px" > </td>'
-                        . '<td>'.$row['Gender'].'</td>'
-                        . '<td>'.$row['PhoneNo'].'</td>'
-                        . '<td>'.$row['LastName'].'</td>'
+
+                        . '<td>'.$row['RecordID'].'</td>'
+                        . '<td>'.$row['PatientID'].'</td>'
                         . '<td>'.$row['FirstName'].'</td>'
-                        .'<td>'.$row['Age'].'</td>'
-                        .'<td>'.$row['Address'].'</td>'
-                        .'<td>'.$row['Type'].'</td>' 
-                                            
-                   . '</tr>';
+                        . '<td>'.$row['LastName'].'</td>'
+                        . '<td>'.$row['Type'].'</td>'
+                        .'<td>'.$row['MedicalIssue'].'</td>'
+                        .'<td>'.$row['Prescription'].'</td>'
+                . '</tr>';
             } 
+           
+            
+     
             
             echo '</table>';
             echo '<br>';
-            echo '<div class="perfect">';
+           echo '<div class = "perfect" >';
             echo '<a href = "logout.php" class = "btn btn-danger " > LOGOUT</a>';
             echo '</div>';
+        
             ?>
      
     </body>

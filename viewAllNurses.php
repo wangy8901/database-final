@@ -82,18 +82,17 @@ body{
                     
             echo '<table border=10 width="100%" class="table table-striped">';
             echo '<tr>'
-            . '<th> Picture </th> '
-            . '<td> Nurse Name </td>'
-            . '<td> Phone Number </td>'
-            . '<td> Gender</td>' 
-            . '<td> Address</td>' 
+            
+            . '<th> Nurse Name </th>'
+            . '<th> Phone Number </th>'
+            . '<th> Gender</th>' 
+            . '<th> Address</th>' 
               . ' <th> Edit </th>'
                 . '<th> Delete </th>'
             .'</tr>';
             while ($row = mysqli_fetch_assoc($result)){
                 $picture = "uploads/" .$row['NurseID'].".jpg";
                 echo '<tr>'
-                . '<td><img src='.$picture.' width = "100px" height = "100px" > </td>'
                         . '<td>'.$row['NurseName'].'</td>'
                         . '<td>'.$row['PhoneNum'].'</td>'
                         . '<td>'.$row['Gender'].'</td>'

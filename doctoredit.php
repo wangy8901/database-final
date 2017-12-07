@@ -14,8 +14,8 @@ if ($_GET['id']){
     $row = mysqli_fetch_assoc($result);
     
     ?>
-    <form action="updatedoctor.php" method="post">
-		<!-- getting the data in form to edit  -->
+    <form action="updatedoctor.php" method="post" enctype="multipart/form-data">
+        <P>PROFILE PICTURE:</P> <input type="file"  name="fileToUpload" id="fileToUpload" value="<?php echo $row['Image_name']; ?>" >
                 <p> LAST NAME </p> <input type="text" required="true" name="lastname" value="<?php echo $row['LastName']; ?> "  style="height: 43px; width: 200px"><br>
                 <p> FIRST NAME </p> <input type="text" required="true" name="firstname" value="<?php echo $row['FirstName']; ?> " placeholder="First Name" style="height: 43px; width: 200px"><br>    
                <p> PHONE NUMBER </p> <input type="text" required="true"  name="phoneNum" value="<?php echo $row['PhoneNum']; ?> " placeholder="Phone Number" style="height: 43px; width: 200px"><br>

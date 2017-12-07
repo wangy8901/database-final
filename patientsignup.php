@@ -4,7 +4,16 @@
 //database connection
 include 'dbconnection.php';
  
-$query = "SELECT * FROM room";
+// $query = "SELECT DISTINCT * FROM room group by Type";
+$query = "SELECT table_a.RoomID, table_a.Type
+FROM 
+	(SELECT r.RoomID, r.Type, count(p.PatientID) as total
+	FROM patient p, room r
+	WHERE p.RoomID = r.RoomID
+	GROUP BY r.RoomID
+	ORDER BY count(p.PatientID)) table_a
+
+GROUP BY table_a.Type";
 $result = mysqli_query($con, $query);
 
 ?>
@@ -51,10 +60,19 @@ $result = mysqli_query($con, $query);
 
            
             <?php
+            
+            $pid;
            
                 if (isset($_POST['button'])) {
                     $firstName = $_POST['firstname'];
-                    $lastName = $_POST['lastname'];
+					if($_FILES['fileToUpload']['tmp_name'] != null || $_FILES['fileToUpload']['name'] != null){
+                        $image = addslashes($_FILES['fileToUpload']['tmp_name']);
+	                    $image_name = addslashes($_FILES['fileToUpload']['name']);
+	                    $image = file_get_contents($image);
+	                    $image = base64_encode($image);
+                    }
+                    
+					$lastName = $_POST['lastname'];
                     $gender = $_POST['gender'];
                     $phoneNumber = $_POST['phoneNum'];
                     $age = $_POST['age'];
@@ -63,7 +81,7 @@ $result = mysqli_query($con, $query);
                     
                     $username = $_POST['username'];
                     $password = $_POST['password'];
-                    $target_dir = "uploads/";
+                    //$target_dir = "uploads/";
                     $queryCheckRecord = "select * from patient where username = '$username'";
                     $resultCheck = mysqli_query($con, $queryCheckRecord);
                    
@@ -73,15 +91,30 @@ $result = mysqli_query($con, $query);
                              </script>';
 
                     }else{
-                        $query = "INSERT INTO patient (Gender, PhoneNo, LastName, FirstName, Age, Address,  RoomID, Username, Password) values('$gender', '$phoneNumber','$lastName','$firstName','$age','$address','$roomId','$username','$password')";
+                        $query = "INSERT INTO patient (Gender, PhoneNo, LastName, FirstName, Age, Address,  RoomID, Username, Password, Image_name, Image) values('$gender', '$phoneNumber','$lastName','$firstName','$age','$address','$roomId','$username','$password','$image_name','$image')";
                         $result = mysqli_query($con, $query);
+                        
+                        
+                       
                         if ($result) {
-                            $user_id = mysqli_insert_id($con);
-                            $target_file = $target_dir . $user_id. '.jpg';
-                            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+                            
+                            
+                             $query2 = "SELECT * FROM patient WHERE Username = '$username'";
+                        $result2 = mysqli_query($con, $query2);
+                        if($result2){
+                            $row12 = mysqli_fetch_assoc($result2);
+                            $pid = $row12['PatientID'];
+                        }
+                        
+                        $query_mr = "INSERT INTO medicalrecord (PatientID, MedicalIssue, DateOfExamination, Prescription) values ('$pid', 'nothing yet', '0000-00-00', 'nothing yet')";
+                        $result_mr = mysqli_query($con, $query_mr);
+                            
+                            
                             echo ("<script LANGUAGE= 'javascript'>
                             window.location.href='viewAllPatients.php';
-                                                           </script>");
+                                                          </script>");
+                            
+                            
                         } else {
                             echo '<script> window.alert("fail");
                                                                         </script>';
@@ -90,6 +123,7 @@ $result = mysqli_query($con, $query);
     
             }
             ?>
+            
         </div>
 
         <!-- Form Validation-->

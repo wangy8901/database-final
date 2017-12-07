@@ -61,11 +61,34 @@ body{
                
                    if (isset($_GET['delete'])){
                        $id = $_GET['delete'];
+                       
+                $sqlset = "ALTER table `patient` nocheck constraint all";
+                $sqlset2 = "ALTER table `examined_by` nocheck constraint all";
+                $sqlset3 = "ALTER table `takecareof` nocheck constraint all";
+
+                $set = mysqli_query($con, $sqlset);
+                $set2 = mysqli_query($con, $sqlset2);
+                $set3 = mysqli_query($con, $sqlset3);
+               
                 $querydelete = "DELETE FROM `patient` WHERE PatientID=".$id;
-                
+                $querydelete2 = "DELETE FROM `examined_by` WHERE PatientID=".$id;
+                $querydelete3 = "DELETE FROM `takecareof` WHERE PatientID=".$id;
+
                 $res = mysqli_query($con, $querydelete);
+                $res2 = mysqli_query($con, $querydelete2);
+                $res3 = mysqli_query($con, $querydelete3);
                 
-                if($querydelete){
+                $sqlsetback = "ALTER table `patient` check constraint all";
+                $sqlsetback2 = "ALTER table `examined_by` check constraint all";
+                $sqlsetback3 = "ALTER table `takecareof` check constraint all";
+
+                $setback = mysqli_query($con, $sqlsetback);
+                $setback2 = mysqli_query($con, $sqlsetback2);
+                $setback3 = mysqli_query($con, $sqlsetback3);
+                
+                
+                
+                if($querydelete && $querydelete2 && $querydelete3){
                      echo 'Record Deleted against Id: '.$id;
                 }
                    
@@ -87,6 +110,7 @@ body{
                     
             echo '<table border=10 width="100%" class="table table-striped" class="table-responsive">';
             echo '<tr>'
+            . '<th> Patient ID </th> '
               . '<th> Picture </th> '
             . '<th> Gender </th> '
             . '<th> Phone Number </th>'
@@ -102,10 +126,12 @@ body{
             
             while ($row = mysqli_fetch_assoc($result )){
                 
-                     $picture = "uploads/" .$row['PatientID'].".jpg";
+                     //$picture = "uploads/" .$row['PatientID'].".jpg";
+					 //$picture = "<img src='data:image,base64;".$row['image']."' width = "100px" height = "100px"/>";
                      $id = $row['PatientID'];
                 echo '<tr>'
-                  . '<td><img src='.$picture.' width = "100px" height = "100px" > </td>'
+                . '<td>'.$row['PatientID'].'</td>'
+                  . '<td><img src="data:image;base64,'.$row['Image'].'" width = "100px" height = "100px"> </td>'
                         . '<td>'.$row['Gender'].'</td>'
                         . '<td>'.$row['PhoneNo'].'</td>'
                         . '<td>'.$row['LastName'].'</td>'
